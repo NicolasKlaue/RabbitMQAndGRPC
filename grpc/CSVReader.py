@@ -31,7 +31,15 @@ public class JavaServer {
     }
 
     static class JavaService extends JavaGrpc.JavaImplBase {
-        
+        @Override 
+        public void sendData(JavaRequest request, StreamObserver<JavaResponse> responseObserver) {
+            System.out.println("Received data from Python: " + request.getData()); 
+            JavaResponse response = JavaResponse.newBuilder() 
+                    .setMessage("Java server received the data.")
+                    .build(); 
         }
     }
 }
+
+
+
