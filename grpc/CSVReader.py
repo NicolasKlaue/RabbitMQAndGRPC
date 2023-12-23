@@ -46,3 +46,11 @@ public class JavaServer {
 
 
 
+# NodeJS Server
+const grpc = require('grpc');
+const protoLoader = require('@grpc/proto-loader');
+
+const packageDefinition = protoLoader.loadSync('proto/node.proto');
+const nodeProto = grpc.loadPackageDefinition(packageDefinition).node;
+
+const server = new grpc.Server();
