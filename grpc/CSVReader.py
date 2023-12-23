@@ -25,4 +25,6 @@ public class JavaServer {
                 .addService(new JavaService())
                 .build();
 
+        server.start();
+        server.awaitTermination();
     }
