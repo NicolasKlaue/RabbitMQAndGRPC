@@ -34,9 +34,12 @@ public class JavaServer {
         @Override 
         public void sendData(JavaRequest request, StreamObserver<JavaResponse> responseObserver) {
             System.out.println("Received data from Python: " + request.getData()); 
-            JavaResponse response = JavaResponse.newBuilder() 
+            JavaResponse response = JavaResponse.newBuilder() # creates the response for the Python client
                     .setMessage("Java server received the data.")
                     .build(); 
+
+            responseObserver.onNext(response); # sends the response created before
+            responseObserver.onCompleted(); # complete operation advice
         }
     }
 }
