@@ -15,3 +15,14 @@ with open('cp-national-datafile-csv.csv', newline='') as csvfile:
     spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
     for row in spamreader:
         print(', '.join(row))
+
+
+# Java Server 
+
+public class JavaServer {
+    public static void main(String[] args) throws Exception {
+        Server server = ServerBuilder.forPort(9090)
+                .addService(new JavaService())
+                .build();
+
+    }
