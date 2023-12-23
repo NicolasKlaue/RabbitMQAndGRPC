@@ -21,10 +21,11 @@ with open('cp-national-datafile-csv.csv', newline='') as csvfile:
 
 public class JavaServer {
     public static void main(String[] args) throws Exception {
+        # GRPC server, port: 9090 configuration
         Server server = ServerBuilder.forPort(9090)
-                .addService(new JavaService())
-                .build();
+                .addService(new JavaService()) # add service
+                .build(); # build service
 
-        server.start();
-        server.awaitTermination();
+        server.start(); 
+        server.awaitTermination(); # wait until server finishes its execution
     }
