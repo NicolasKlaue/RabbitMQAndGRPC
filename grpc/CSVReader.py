@@ -29,3 +29,9 @@ public class JavaServer {
         server.start(); 
         server.awaitTermination(); # wait until server finishes its execution
     }
+
+    static class JavaService extends JavaGrpc.JavaImplBase {
+        
+        }
+    }
+}
