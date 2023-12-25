@@ -54,3 +54,13 @@ const packageDefinition = protoLoader.loadSync('proto/node.proto');
 const nodeProto = grpc.loadPackageDefinition(packageDefinition).node;
 
 const server = new grpc.Server();
+
+server.addService(nodeProto.Node.service, {
+    sendData: (call, callback) => {
+        // Process data here
+        console.log('Received data from Python:', call.request.data);
+
+        // Respond with acknowledgment
+        callback(null, { message: 'Node.js server received the data.' });
+    },
+});
