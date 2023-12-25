@@ -64,3 +64,8 @@ server.addService(nodeProto.Node.service, {
         callback(null, { message: 'Node.js server received the data.' });
     },
 });
+
+
+server.bind('127.0.0.1:8080', grpc.ServerCredentials.createInsecure());
+console.log('Node.js gRPC server running at http://127.0.0.1:8080');
+server.start();
