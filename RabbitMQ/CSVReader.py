@@ -1,9 +1,11 @@
 import csv
+import sys
 import pika
 import json
+import os
 
 #region root directory
-import os
+
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
 os.chdir(dname)
@@ -27,6 +29,15 @@ try:
      print(f"Sent CSV file {file_path}")
 except Exception as e:
     print("Connection could not be established ERROR:\t" + str(e))
+    sys.exit(1)
+
+# Define callback function for message acknowledgments
+def callback(ch, method, properties, body):
+    print(f"Received acknowledgment: {body.decode()}")
+
+# Set up consumer to receive acknowledgments
+channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
+
 
 try:
     channel.basic_publish(exchange='', routing_key=queue_name, body=json.dumps(message),mandatory=True)
@@ -34,4 +45,5 @@ try:
     connection.close()
 except Exception as e:
     print('Message could not be confirmed ERROR:\t' + str(e))
+    sys.exit(1)
 #endregion
