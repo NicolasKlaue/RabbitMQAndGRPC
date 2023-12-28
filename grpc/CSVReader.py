@@ -20,8 +20,12 @@ def send_to_java(data):
  
 
 def send_to_node(data):
-    return None
-
+    with grpc.insecure_channel(node_server_address) as channel:
+        stub = node_pb2_grpc.NodeStub(channel)
+        request = node_pb2.NodeRequest(data=data)
+        response = stub.sendData(request)
+    print("Node.js server response:", response.message)
+    
 # Read CSV file and send data to Java and Node.js servers
 with open(csv_file, newline='') as csvfile:
     spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
