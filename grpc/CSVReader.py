@@ -12,7 +12,11 @@ java_server_address = 'localhost:9090'
 node_server_address = 'localhost:8080'
 
 def send_to_java(data):
-    return None
+    with grpc.insecure_channel(java_server_address) as channel:
+        stub = java_pb2_grpc.JavaStub(channel)
+        request = java_pb2.JavaRequest(data=data)
+        response = stub.sendData(request)
+    print("Java server response:", response.message)
  
 
 def send_to_node(data):
