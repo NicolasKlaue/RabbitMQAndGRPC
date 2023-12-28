@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package communication;
+
+service CommunicationService {
+  rpc SendJsonData(JsonDataRequest) returns (JsonDataResponse);
+}
+
+message JsonDataRequest {
+  string json_data = 1;
+}
+
+message JsonDataResponse {
+  string status = 1;
+}

@@ -1,31 +1,30 @@
-import csv
+package com.example;
+
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
 
-// Java Server 
+public class App extends CommunicationServiceGrpc.CommunicationServiceImplBase {
+    @Override
+    public void sendJsonData(JsonDataRequest request, StreamObserver<JsonDataResponse> responseObserver) {
+        // Process the received JSON data
+        System.out.println("Received JSON data: " + request.getJsonData());
 
-public class JavaServer {
-    public static void main(String[] args) throws Exception {
-        // GRPC server, port: 9090 configuration
-        Server server = ServerBuilder.forPort(9090)
-                .addService(new JavaService()) // add service
-                .build(); // build service
-
-        server.start(); 
-        server.awaitTermination(); // wait until server finishes its execution
+        // Send a response
+        JsonDataResponse response = JsonDataResponse.newBuilder()
+                .setStatus("Data received successfully")
+                .build();
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
     }
 
-    static class JavaService extends JavaGrpc.JavaImplBase {
-        @Override 
-        public void sendData(JavaRequest request, StreamObserver<JavaResponse> responseObserver) {
-            System.out.println("Received data from Python: " + request.getData()); 
-            JavaResponse response = JavaResponse.newBuilder() // creates the response for the Python client
-                    .setMessage("Java server received the data.")
-                    .build(); 
+    public static void main(String[] args) throws Exception {
+        Server server = ServerBuilder.forPort(9090)
+                .addService(new CommunicationServer())
+                .build();
 
-            responseObserver.onNext(response); // sends the response created before
-            responseObserver.onCompleted(); // complete operation advice
-        }
+        server.start();
+        System.out.println("Server started on port 9090");
+        server.awaitTermination();
     }
 }
