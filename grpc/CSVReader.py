@@ -1,14 +1,34 @@
+import csv
+import grpc
+from generated import java_pb2, java_pb2_grpc  # Adjust the import based on your proto file location
+from generated import node_pb2, node_pb2_grpc  # Adjust the import based on your proto file location
 
 
-#region root directory
-import os
-abspath = os.path.abspath(__file__)
-dname = os.path.dirname(abspath)
-os.chdir(dname)
-#endregion
+# Store the CSV path
+csv_file = 'cp-national-datafile-csv.csv'
 
+# gRPC server addresses
+java_server_address = 'localhost:9090'
+node_server_address = 'localhost:8080'
 
-with open('cp-national-datafile-csv.csv', newline='') as csvfile:
-    spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+def send_to_java(data):
+    return None
+ 
+
+def send_to_node(data):
+    return None
+
+# Read CSV file and send data to Java and Node.js servers
+with open(csv_file, newline='') as csvfile:
+    spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
     for row in spamreader:
-        print(', '.join(row))
+        data = ', '.join(row)
+        print(data)
+        send_to_java(data)
+        send_to_node(data)
+
+
+
+
+
+
